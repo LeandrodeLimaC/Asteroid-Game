@@ -1,7 +1,7 @@
 import SpaceShip from './models/SpaceShip'
 
 let canvas: HTMLElement
-let playerShip: SpaceShip<HTMLElement>
+let playerShip: SpaceShip
 
 (function init(): void {
     canvas = document.getElementById('asteroids-game')!;
