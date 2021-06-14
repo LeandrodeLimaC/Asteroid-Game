@@ -1,6 +1,6 @@
-export default class SpaceShip<T extends HTMLElement> {
+export default class SpaceShip {
     constructor(
-        protected canvas: T,
+        protected canvas: HTMLElement,
         protected yPosition: number = 0,
         protected xPosition: number = 0,
     ) { }
