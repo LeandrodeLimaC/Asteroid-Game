@@ -1,4 +1,4 @@
-export default class SpaceShip {
+export class SpaceShip {
     constructor(
         protected canvas: HTMLElement,
         protected yPosition: number = 0,
