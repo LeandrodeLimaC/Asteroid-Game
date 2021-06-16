@@ -1,4 +1,5 @@
-
+import { Asteroid } from "../models/Asteroid"
+import { SpaceShip } from "../models/SpaceShip"
 export class CanvasView {
     private canvas: HTMLCanvasElement
     private context: CanvasRenderingContext2D
@@ -8,34 +9,20 @@ export class CanvasView {
     constructor(
         public canvasId: string
     ) {
-        const canvasFound = document.querySelector<HTMLCanvasElement>(`canvas#${canvasId}`)
-        if (!canvasFound)
-            throw new Error(`
-                Falha ao encontrar elemento Canvas, 
-                verifique se existe um elemento <canvas id="${canvasId}"> 
-            `)
-
-        this.canvas = canvasFound
-
-        const contextFound = this.canvas.getContext('2d')
-        if (!contextFound)
-            throw new Error(`
-                Falha ao adquirir contexto 2d
-            `)
-
-        this.context = contextFound
+        this.canvas = document.querySelector(`canvas#${canvasId}`) as HTMLCanvasElement;
+        this.canvas.width = this.canvasWidth
+        this.canvas.height = this.canvasHeight
+        this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     }
 
-    private clear(): void {
+    clear(): void {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    setup() {
-        this.canvas.width = this.canvasWidth
-        this.canvas.height = this.canvasHeight
-        console.log(this.canvas)
-        // console.log(this.ctx)
+    drawModel(model: Asteroid | SpaceShip) {
+
     }
+
 
     render() { }
 }
