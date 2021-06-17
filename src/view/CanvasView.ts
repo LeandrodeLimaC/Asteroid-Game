@@ -1,10 +1,10 @@
-import { Asteroid } from "../models/Asteroid"
 import { SpaceShip } from "../models/SpaceShip"
+
 export class CanvasView {
-    private canvas: HTMLCanvasElement
-    private context: CanvasRenderingContext2D
-    private canvasHeight: number = window.innerHeight
-    private canvasWidth: number = window.innerWidth
+    public canvas: HTMLCanvasElement
+    public context: CanvasRenderingContext2D
+    public canvasHeight: number = window.innerHeight
+    public canvasWidth: number = window.innerWidth
 
     constructor(
         public canvasId: string
@@ -19,10 +19,13 @@ export class CanvasView {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    drawModel(model: Asteroid | SpaceShip) {
-
+    init(startFunction: (view: CanvasView) => void): void {
+        startFunction(this)
     }
 
+    drawModel(model: SpaceShip): void {
+        model.draw(this.context)
+    }
 
     render() { }
 }
