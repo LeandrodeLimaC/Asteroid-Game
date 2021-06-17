@@ -1,14 +1,24 @@
 import { CanvasView } from './view/CanvasView'
+import { SpaceShip } from './models/SpaceShip'
 
 function gameLoop(
     view: CanvasView,
+    ship: SpaceShip,
 ): void {
     view.clear()
-    requestAnimationFrame(() => gameLoop(view))
+    view.drawModel(ship)
+    requestAnimationFrame(() => gameLoop(view, ship))
 }
 
 function startGame(view: CanvasView) {
-    gameLoop(view)
+    const ship = new SpaceShip(
+        {
+            x: view.canvasWidth / 2,
+            y: view.canvasHeight / 2
+        }
+    )
+
+    gameLoop(view, ship)
 }
 
 const view = new CanvasView('asteroids-game')
