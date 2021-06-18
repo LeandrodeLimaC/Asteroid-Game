@@ -13,6 +13,7 @@ export class CanvasView {
         this.canvas.width = this.canvasWidth
         this.canvas.height = this.canvasHeight
         this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+        this.canvas.style.backgroundColor = '#151515'
     }
 
     clear(): void {
