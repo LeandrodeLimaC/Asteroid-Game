@@ -21,23 +21,25 @@ export class SpaceShip {
         this.angle += this.rotateSpeed * dir
     }
 
+    public accelerate(radians: number): void {
+        this.velocity.x += parseFloat((Math.cos(radians) * this.speed).toFixed(4))
+        this.velocity.y += parseFloat((Math.sin(radians) * this.speed).toFixed(4))
+    }
+
     update(): void {
-        let radians = this.angle / Math.PI * 180;
+        let radians: number = this.angle / Math.PI * 180;
 
         // Acelerar
-        if (this.movingForward) {
-            this.velocity.x += Math.cos(radians) * this.speed
-            this.velocity.y += Math.sin(radians) * this.speed
-        }
+        if (this.movingForward) this.accelerate(radians)
 
         // Perda de velocidade
-        if (this.velocity.x || this.velocity.y || this.movingForward) {
+        if (this.velocity.x || this.velocity.y || !this.movingForward) {
             this.velocity.x = parseFloat((this.velocity.x * 0.99).toFixed(3));
             this.velocity.y = parseFloat((this.velocity.y * 0.99).toFixed(3));
         }
 
         // Correção de perda de velocidade
-        if (this.velocity.x === 0.05 || this.velocity.x === -0.05 && !this.movingForward)
+        if ((this.velocity.x === 0.05 || this.velocity.x === -0.05) && !this.movingForward)
             this.velocity.x = 0
 
         if (this.velocity.y === 0.05 || this.velocity.y === -0.05 && !this.movingForward)
@@ -48,8 +50,10 @@ export class SpaceShip {
 
         this.movingForward = Boolean(this.keys[87])
 
-        if (this.keys[68]) this.rotate(1)
-        if (this.keys[65]) this.rotate(-1)
+        if (this.keys[68])
+            this.rotate(1)
+        if (this.keys[65])
+            this.rotate(-1)
     }
 
     draw(context: CanvasRenderingContext2D): void {
