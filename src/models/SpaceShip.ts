@@ -13,10 +13,10 @@ export class SpaceShip {
     private keys: Object[] = []
 
     set setVelocityX(value: number) {
-        this.velocity.x = parseFloat((value).toFixed(4))
+        this.velocity.x = parseFloat((value).toFixed(3))
     }
     set setVelocityY(value: number) {
-        this.velocity.y = parseFloat((value).toFixed(4))
+        this.velocity.y = parseFloat((value).toFixed(3))
     }
 
     constructor(
