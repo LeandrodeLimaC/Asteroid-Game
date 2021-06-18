@@ -13,33 +13,38 @@ export class SpaceShip {
         protected position: Vector,
         public angle: number = 0
     ) {
-        document.body.addEventListener("keydown", (e): void => {
-            console.log(e)
-            this.keys[e.keyCode] = true
-        })
-        document.body.addEventListener("keyup", (e): void => {
-            this.keys[e.keyCode] = false
-        })
+        document.body.addEventListener("keydown", (e): Boolean => this.keys[e.keyCode] = true)
+        document.body.addEventListener("keyup", (e): Boolean => this.keys[e.keyCode] = false)
     }
 
-    rotate(dir: number) {
+    rotate(dir: number): void {
         this.angle += this.rotateSpeed * dir
     }
 
     update(): void {
         let radians = this.angle / Math.PI * 180;
+
+        // Acelerar
         if (this.movingForward) {
             this.velocity.x += Math.cos(radians) * this.speed
             this.velocity.y += Math.sin(radians) * this.speed
         }
 
-        this.velocity.x *= 0.99;
-        this.velocity.y *= 0.99;
-        console.log("this.velocity", this.velocity)
+        // Perda de velocidade
+        if (this.velocity.x || this.velocity.y || this.movingForward) {
+            this.velocity.x = parseFloat((this.velocity.x * 0.99).toFixed(3));
+            this.velocity.y = parseFloat((this.velocity.y * 0.99).toFixed(3));
+        }
+
+        // Correção de perda de velocidade
+        if (this.velocity.x === 0.05 || this.velocity.x === -0.05 && !this.movingForward)
+            this.velocity.x = 0
+
+        if (this.velocity.y === 0.05 || this.velocity.y === -0.05 && !this.movingForward)
+            this.velocity.y = 0
+
         this.position.x -= this.velocity.x
         this.position.y -= this.velocity.y
-        console.log("this.position", this.position)
-
 
         this.movingForward = Boolean(this.keys[87])
 
@@ -48,7 +53,7 @@ export class SpaceShip {
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        context.strokeStyle = 'black'
+        context.strokeStyle = 'white'
         context.beginPath()
 
         let vertAngle = ((Math.PI * 2) / 3)
