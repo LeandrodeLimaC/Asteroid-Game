@@ -7,6 +7,7 @@ function gameLoop(
 ): void {
     view.clear()
     view.drawModel(ship)
+    ship.update()
     requestAnimationFrame(() => gameLoop(view, ship))
 }
 
