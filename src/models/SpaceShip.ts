@@ -33,7 +33,7 @@ export class SpaceShip {
 
     public accelerate(radians: number): void {
         this.setVelocityX = this.velocity.x + (Math.cos(radians) * this.speed)
-        this.velocity.y = this.velocity.y + (Math.sin(radians) * this.speed)
+        this.setVelocityY = this.velocity.y + (Math.sin(radians) * this.speed)
     }
 
     private speedLoss() {
