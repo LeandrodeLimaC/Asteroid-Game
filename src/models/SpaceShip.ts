@@ -56,7 +56,7 @@ export class SpaceShip {
         if ((this.velocity.x === 0.05 || this.velocity.x === -0.05) && !this.movingForward)
             this.velocity.x = 0
 
-        if (this.velocity.y === 0.05 || this.velocity.y === -0.05 && !this.movingForward)
+        if ((this.velocity.y === 0.05 || this.velocity.y === -0.05) && !this.movingForward)
             this.velocity.y = 0
 
         this.position.x -= this.velocity.x
