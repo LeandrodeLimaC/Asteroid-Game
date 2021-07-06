@@ -1,11 +1,7 @@
 import { Vector } from '../types'
+import { SHIP_SPEED, SHIP_TURNSPEED, SHIP_RADIUS } from '../setup';
 
 export class SpaceShip {
-    // Constants
-    private speed: number = 0.1
-    private rotateSpeed: number = 0.001
-    private radius: number = 15
-
     // Ship variables
     private velocity: Vector = { x: 0, y: 0 }
     private nosePosition: Vector = { x: 0, y: 0 }
@@ -28,12 +24,12 @@ export class SpaceShip {
     }
 
     rotate(dir: number): void {
-        this.angle += this.rotateSpeed * dir
+        this.angle += SHIP_TURNSPEED * dir
     }
 
     public accelerate(radians: number): void {
-        this.setVelocityX = this.velocity.x + (Math.cos(radians) * this.speed)
-        this.setVelocityY = this.velocity.y + (Math.sin(radians) * this.speed)
+        this.setVelocityX = this.velocity.x + (Math.cos(radians) * SHIP_SPEED)
+        this.setVelocityY = this.velocity.y + (Math.sin(radians) * SHIP_SPEED)
     }
 
     private speedLoss() {
@@ -47,10 +43,11 @@ export class SpaceShip {
         let radians: number = this.angle / Math.PI * 180;
 
         // Acelerar
-        if (this.movingForward) this.accelerate(radians)
-
+        if (this.movingForward)
+            this.accelerate(radians)
+        else
+            this.speedLoss()
         // Perda de velocidade
-        if (!this.movingForward) this.speedLoss()
 
         // Correção de perda de velocidade
         if ((this.velocity.x === 0.05 || this.velocity.x === -0.05) && !this.movingForward)
@@ -78,13 +75,13 @@ export class SpaceShip {
 
         let radians = this.angle / Math.PI * 180
 
-        this.nosePosition.x = this.position.x - this.radius * Math.cos(radians)
-        this.nosePosition.y = this.position.y - this.radius * Math.sin(radians)
+        this.nosePosition.x = this.position.x - SHIP_RADIUS * Math.cos(radians)
+        this.nosePosition.y = this.position.y - SHIP_RADIUS * Math.sin(radians)
 
         for (let i = 0; i < 3; i++) {
             context.lineTo(
-                this.position.x - this.radius * Math.cos(vertAngle * i + radians),
-                this.position.y - this.radius * Math.sin(vertAngle * i + radians)
+                this.position.x - SHIP_RADIUS * Math.cos(vertAngle * i + radians),
+                this.position.y - SHIP_RADIUS * Math.sin(vertAngle * i + radians)
             )
         }
 
