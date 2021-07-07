@@ -4,7 +4,6 @@ import { SHIP_SPEED, SHIP_TURNSPEED, SHIP_RADIUS } from '../setup'
 export class SpaceShip {
     private velocity: Vector = { x: 0, y: 0 }
     private nosePosition: Vector = { x: 0, y: 0 }
-    private movingForward = false
     private keys: keysPressed = {}
 
     set setVelocityX(value: number) {
@@ -36,25 +35,21 @@ export class SpaceShip {
 
         this.setVelocityX = this.velocity.x * 0.99
         this.setVelocityY = this.velocity.y * 0.99
+
+        if (this.velocity.x === 0.05 || this.velocity.x === -0.05)
+            this.velocity.x = 0
+
+        if (this.velocity.y === 0.05 || this.velocity.y === -0.05)
+            this.velocity.y = 0
     }
 
     update(): void {
         let radians: number = this.angle / Math.PI * 180
 
-        // Acelerar
         if (this.keys['w'])
             this.accelerate(radians)
-        else {
-            // Perda de velocidade
+        else
             this.speedLoss()
-
-            // Correção de perda de velocidade
-            if (this.velocity.x === 0.05 || this.velocity.x === -0.05)
-                this.velocity.x = 0
-
-            if (this.velocity.y === 0.05 || this.velocity.y === -0.05)
-                this.velocity.y = 0
-        }
 
         this.position.x -= this.velocity.x
         this.position.y -= this.velocity.y
@@ -66,6 +61,8 @@ export class SpaceShip {
     }
 
     draw(context: CanvasRenderingContext2D): void {
+        this.update()
+
         context.strokeStyle = 'white'
         context.beginPath()
 
@@ -76,12 +73,18 @@ export class SpaceShip {
         this.nosePosition.x = this.position.x - SHIP_RADIUS * Math.cos(radians)
         this.nosePosition.y = this.position.y - SHIP_RADIUS * Math.sin(radians)
 
-        for (let i = 0; i < 3; i++) {
-            context.lineTo(
-                this.position.x - SHIP_RADIUS * Math.cos(vertAngle * i + radians),
-                this.position.y - SHIP_RADIUS * Math.sin(vertAngle * i + radians)
-            )
-        }
+        context.lineTo(
+            this.position.x - SHIP_RADIUS * Math.cos(vertAngle * 0 + radians),
+            this.position.y - SHIP_RADIUS * Math.sin(vertAngle * 0 + radians)
+        )
+        context.lineTo(
+            this.position.x - (SHIP_RADIUS - 5) * Math.cos(vertAngle * 1 + radians),
+            this.position.y - (SHIP_RADIUS - 5) * Math.sin(vertAngle * 1 + radians)
+        )
+        context.lineTo(
+            this.position.x - (SHIP_RADIUS - 5) * Math.cos(vertAngle * 2 + radians),
+            this.position.y - (SHIP_RADIUS - 5) * Math.sin(vertAngle * 2 + radians)
+        )
 
         context.closePath()
         context.stroke()
