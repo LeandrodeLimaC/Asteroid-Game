@@ -1,12 +1,11 @@
-import { Vector } from '../types'
-import { SHIP_SPEED, SHIP_TURNSPEED, SHIP_RADIUS } from '../setup';
+import { Vector, keysPressed } from '../types'
+import { SHIP_SPEED, SHIP_TURNSPEED, SHIP_RADIUS } from '../setup'
 
 export class SpaceShip {
-    // Ship variables
     private velocity: Vector = { x: 0, y: 0 }
     private nosePosition: Vector = { x: 0, y: 0 }
     private movingForward = false
-    private keys: Object[] = []
+    private keys: keysPressed = {}
 
     set setVelocityX(value: number) {
         this.velocity.x = parseFloat((value).toFixed(3))
@@ -19,8 +18,8 @@ export class SpaceShip {
         protected position: Vector,
         public angle: number = 0
     ) {
-        document.body.addEventListener("keydown", (e): Boolean => this.keys[e.keyCode] = true)
-        document.body.addEventListener("keyup", (e): Boolean => this.keys[e.keyCode] = false)
+        document.body.addEventListener("keydown", ({ key }) => this.keys[key] = true)
+        document.body.addEventListener("keyup", ({ key }) => this.keys[key] = false)
     }
 
     rotate(dir: number): void {
@@ -40,30 +39,29 @@ export class SpaceShip {
     }
 
     update(): void {
-        let radians: number = this.angle / Math.PI * 180;
+        let radians: number = this.angle / Math.PI * 180
 
         // Acelerar
-        if (this.movingForward)
+        if (this.keys['w'])
             this.accelerate(radians)
-        else
+        else {
+            // Perda de velocidade
             this.speedLoss()
-        // Perda de velocidade
 
-        // Correção de perda de velocidade
-        if ((this.velocity.x === 0.05 || this.velocity.x === -0.05) && !this.movingForward)
-            this.velocity.x = 0
+            // Correção de perda de velocidade
+            if (this.velocity.x === 0.05 || this.velocity.x === -0.05)
+                this.velocity.x = 0
 
-        if ((this.velocity.y === 0.05 || this.velocity.y === -0.05) && !this.movingForward)
-            this.velocity.y = 0
+            if (this.velocity.y === 0.05 || this.velocity.y === -0.05)
+                this.velocity.y = 0
+        }
 
         this.position.x -= this.velocity.x
         this.position.y -= this.velocity.y
 
-        this.movingForward = Boolean(this.keys[87])
-
-        if (this.keys[68])
+        if (this.keys['d'])
             this.rotate(1)
-        if (this.keys[65])
+        if (this.keys['a'])
             this.rotate(-1)
     }
 
