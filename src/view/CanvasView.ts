@@ -16,19 +16,15 @@ export class CanvasView {
         this.canvas.style.backgroundColor = '#151515'
     }
 
-    clear(): void {
+    clear() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
     }
 
-    init(startFunction: (view: CanvasView) => void): void {
+    init(startFunction: (view: CanvasView) => void) {
         startFunction(this)
     }
 
     drawModel(model: SpaceShip): void {
         model.draw(this.context)
     }
-
-    render() { }
 }
-
-
