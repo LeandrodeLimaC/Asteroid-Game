@@ -8,6 +8,10 @@ function gameLoop(
     view.clear()
     view.drawModel(ship)
 
+    ship.bullets.forEach(bullet => {
+        view.drawModel(bullet)
+    })
+
     requestAnimationFrame(() => gameLoop(view, ship))
 }
 
