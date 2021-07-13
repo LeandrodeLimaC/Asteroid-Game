@@ -1,3 +1,4 @@
+import { Bullet } from "../models/Bullet"
 import { SpaceShip } from "../models/SpaceShip"
 
 export class CanvasView {
@@ -24,7 +25,7 @@ export class CanvasView {
         startFunction(this)
     }
 
-    drawModel(model: SpaceShip): void {
+    drawModel(model: SpaceShip | Bullet): void {
         model.draw(this.context)
     }
 }
