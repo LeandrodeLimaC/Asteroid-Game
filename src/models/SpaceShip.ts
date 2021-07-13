@@ -1,16 +1,13 @@
 import { Vector, keysPressed } from '../types'
 import { SHIP_SPEED, SHIP_TURNSPEED, SHIP_RADIUS } from '../setup'
 import { Object2D } from './Object2D'
+import { Bullet } from './Bullet'
 
-interface ShipWeapon {
-    weaponPosition: Vector;
-    fire: () => void;
-}
-
-export class SpaceShip extends Object2D implements ShipWeapon {
+export class SpaceShip extends Object2D {
     private _velocity: Vector = { x: 0, y: 0 }
     private _keys: keysPressed = {}
     weaponPosition: Vector = { x: 0, y: 0 }
+    bullets: Bullet[] = [];
 
     set velocity({ x, y }: Vector) {
         this._velocity = {
@@ -25,7 +22,7 @@ export class SpaceShip extends Object2D implements ShipWeapon {
     }
 
     constructor(
-        protected position: Vector,
+        public position: Vector,
         public angle: number = 0
     ) {
         super()
@@ -37,8 +34,7 @@ export class SpaceShip extends Object2D implements ShipWeapon {
     }
 
     fire() {
-        console.log(`Fired bullet at:`, this.weaponPosition)
-        console.log(`From this ship:`, this)
+        this.bullets.push(new Bullet(this, this.angle))
     }
 
     rotate(dir: number): void {
@@ -50,7 +46,6 @@ export class SpaceShip extends Object2D implements ShipWeapon {
             x: this.velocity.x + (Math.cos(radians) * SHIP_SPEED),
             y: this.velocity.y + (Math.sin(radians) * SHIP_SPEED)
         }
-        // this.setVelocityY = this.velocity.y + (Math.sin(radians) * SHIP_SPEED)
     }
 
     private speedLoss() {
@@ -69,7 +64,6 @@ export class SpaceShip extends Object2D implements ShipWeapon {
     }
 
     update() {
-        console.log(this.velocity)
         let radians: number = this.angle / Math.PI * 180
 
         if (this._keys['w'])
